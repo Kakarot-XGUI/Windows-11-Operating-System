@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="osstyle.css">
+    <title>Windows 11 Operating System</title>
+
+</head>
+
+<body class="overflow-hidden transition-all duration-100" id="desktop">
+
+    <!-- Background Video -->
+    <div class="fixed inset-0 z-0">
+        <video src="assets/win11.mp4" autoplay muted class="w-full h-full object-cover" id="bgVideo"></video>
+    </div>
+    <div id="bgImage" class="hidden absolute inset-0 bg-cover bg-center -z-10"></div>
+
+
+    <!-- Desktop Icons -->
+    <div class="relative z-998 w-full h-screen">
+
+        <!-- This Pc Icon -->
+        <!-- Double click on icon openThisPc Called -->
+        <div ondblclick="openThisPc()" class="drag flex items-center flex-col text-white absolute" style="top: 20px; left: -2px;">
+            <img src="assets/this pc.png" alt="This PC" class="w-15 h-11">
+            <span class="mt-1 font-['Winky_Rough']">This PC</span>
+        </div>
+
+        <!-- Chrome Icon -->
+        <div class="drag flex items-center flex-col text-white" style="top: 100px; left: 24px;">
+            <img src="assets/chrome.PNG" alt="Chrome" class="w-14 h-9">
+            <span class=" my-1 font-['Winky_Rough']">Chrome</span>
+        </div>
+
+        <!-- VS Code Icon -->
+        <div ondblclick="openVS()" class="drag flex items-center flex-col text-white" style="top: 170px; left: 24px;">
+            <img src="assets/vscode.png" alt="VS Code" class="w-14 h-14">
+            <span class=" mt-0 font-['Winky_Rough']">VS Code</span>
+        </div>
+
+        <!-- File Explorer Icon -->
+        <div ondblclick="openExploler()" class="drag items-center flex flex-col text-white" style="top: 270px; left: 12px;">
+            <img src="assets/exploler.png" alt="File Explorer" class="w-11 h-11 ">
+            <span class=" mt-1 font-['Winky_Rough']">File Explorer</span>
+        </div>
+
+        <!--Recycle bin-->
+        <div ondblclick="openBin()" class="drag items-center flex flex-col text-white" style="top: 360px; left: 16px;">
+            <img src="assets/recyclebinicon.png" alt="Bin" class="w-11 h-11 ">
+            <span class=" mt-1 font-['Winky_Rough']">Recycle Bin</span>
+        </div>
+
+        <!--notepad-->
+        <div ondblclick="openPad()" class="drag items-center flex flex-col text-white" style="top: 450px; left: 22px;">
+            <img src="assets/notepad.png" alt="Bin" class="w-[7vh] h-15 ">
+            <span class=" mt-1 font-['Winky_Rough']">Note Pad</span>
+        </div>
+    </div>
+
+    <!-- taskbar -->
+    <div class="taskbar absolute bottom-0 w-screen bg-white h-[6vh] flex items-center justify-between px-4 z-[5000]">
+        <div class="flex items-center gap-2 text-sm text-gray-700" id="weather-box">
+            <img id="weather-icon" class="h-8">
+            <span id="temperature" class="font-black text-lg font-['Michroma']">__°C</span>
+            <span id="weather-desc" class="text-gray-500 text-lg font-medium">Loading...</span>
+        </div>
+
+
+        <!-- Center: Icons -->
+        <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-4 hidden lg:flex">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Windows_logo_-_2021.svg" class="h-5" alt="Start">
+            <div class="w-full max-w-xl">
+                <div class="flex items-center bg-white  rounded-full px-4 py-0 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500">
+                    <!-- Search Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-3" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+                    </svg>
+
+                    <!-- Input Field -->
+                    <input type="text" placeholder="Type here to search..." class="w-full outline-none bg-transparent text-gray-700 placeholder-gray-400" />
+                </div>
+            </div>
+            <i class="ri-edge-line text-xl text-blue-500"></i>
+            <i class="ri-folder-3-line text-xl text-yellow-600"></i>
+            <i class="ri-store-3-line text-xl text-green-500"></i>
+            <div id="minimized-apps" class="flex gap-2"></div>
+        </div>
+
+        <!-- Right: System tray -->
+        <div class="flex items-center gap-2 text-sm text-gray-700">
+            <i class="ri-arrow-up-s-line text-xl cursor-pointer"></i>
+            <i id="toggle-panel" class="ri-wifi-line text-xl cursor-pointer text-gray-700"></i>
+            <i class="ri-battery-charge-line text-xl"></i>
+            <i class="ri-volume-up-line text-xl"></i>
+            <div id="toggle-calendar" class="text-center leading-none">
+                <span id="time"></span> <br>
+                <span id="date" class="text-[13px]"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Context menu When click on Mouse right Context Menu show hoga and on click on change Wallpaper openWallpaperWindow call hoga -->
+
+    <div id="contextMenu" class="hidden absolute bg-white border rounded shadow-lg w-48 p-2 z-[9999]">
+        <div class="hover:bg-blue-100  py-2 cursor-pointer"><i class="ri-file-add-line"></i> New Folder</div>
+        <div class="hover:bg-blue-100  py-2 cursor-pointer" onclick="location.reload()"><i class="ri-refresh-line"></i>
+            Refresh Page</div>
+
+        <div onclick="openVS()" class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/vscode.png" alt="VS Code"
+                class="w-8 h-8"> Vs Code</div>
+        <div class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/chrome.png" alt="VS Code"
+                class="w-8 h-5"> Chrome </div>
+        <div onclick="openExploler()" class="hover:bg-blue-100 px-1 py-2 cursor-pointer text-center flex gap-2"> <img src="assets/exploler.png"
+                alt="VS Code" class="w-7 h-7"> File Explorer</div>
+        <div class="hover:bg-blue-100 px-1 py-2 cursor-pointer" onclick="openWallpaperWindow()"> Change Wallpaper</div>
+    </div>
+
+
+    <!-- Wallpaper Selection Window -->
+    <div id="wallpaperWindow" class=" hidden absolute top-32 left-32 w-[40vw] h-[60vh] bg-white rounded-xl shadow-lg border  z-[999] flex flex-col resize overflow-hidden">
+        <!-- Title bar -->
+        <div id="titleBar" class="flex justify-between items-center bg-gray-800 text-white px-4 py-2 cursor-move">
+            <span>Change Wallpaper</span>
+            <div class="flex gap-2 items-center">
+                <button onclick="minimizeWindow()" class="w-8 h-8 hover:bg-yellow-600 text-xl font-bold font-['Michroma']">-</button>
+                <button onclick="maximizeWindow()" class="w-8 h-8 hover:bg-green-600 text-lg font-bold font-['Michroma']">0</button>
+                <button onclick="closeWindow()" class="w-8 h-8 hover:bg-red-600 text-xl font-bold">X</button>
+            </div>
+        </div>
+
+        <!-- Resizable Content Area -->
+        <div id="wallpaperContent" class=" flex-1 overflow-y-auto p-2">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4  gap-2 h-full" id="big">
+                <img src="assets/bg1.jpeg" class="cursor-pointer images rounded hover:opacity-80 object-cover w-full h-32 sm:h-40"
+                    onclick="setWallpaper(this.src)">
+                <img src="assets/bg2.jpg" class="cursor-pointer images rounded hover:opacity-80 object-cover w-full h-32 sm:h-40"
+                    onclick="setWallpaper(this.src)">
+                <img src="assets/bg3.jpg" class="cursor-pointer images rounded hover:opacity-80 object-cover w-full h-32 sm:h-40"
+                    onclick="setWallpaper(this.src)">
+                <img src="assets/bg4.jpg" class="cursor-pointer images rounded hover:opacity-80 object-cover w-full h-32 sm:h-40"
+                    onclick="setWallpaper(this.src)">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- This PC Window -->
+    <div id="thisPcWindow" class="hidden absolute top-40 left-40 w-[50vw] h-[60vh] bg-white rounded-xl shadow-2xl border border-gray-300 z-[998] flex flex-col resize overflow-hidden">
+        <!-- Title Bar -->
+        <div id="PcTitleBar" class="flex justify-between items-center bg-gray-800 text-white px-4 py-2 cursor-move">
+            <span class="font-semibold">This PC</span>
+            <div class="flex gap-2 items-center">
+                <button onclick="minimizeWindow1()" class="w-8 h-8 hover:bg-yellow-500 rounded text-xl font-bold font-['Michroma']">-</button>
+                <button onclick="maximizeWindow1()" class="w-8 h-8 hover:bg-green-500 rounded text-xl font-bold font-['Michroma']">0</button>
+                <button onclick="closeWindow1()" class="w-8 h-8 hover:bg-red-500 rounded text-xl font-bold font-['Michroma']">X</button>
+            </div>
+        </div>
+
+        <!-- Window Content -->
+        <div id="PcContent" class="flex-1 overflow-y-auto bg-gray-200 p-4 space-y-3">
+            <!-- Drives -->
+            <div class="bg-gray-100 p-2 rounded-xl">
+                <h2 class="text-lg font-semibold text-gray-700 mb-2">Drives</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg transition">
+                        <p class="font-semibold">Local Disk (C:)</p>
+                        <p class="text-sm text-gray-500">Used for system files</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg transition">
+                        <p class="font-semibold">Data Drive (D:)</p>
+                        <p class="text-sm text-gray-500">Project Files & Documents</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg transition">
+                        <p class="font-semibold">Entertainment (E:)</p>
+                        <p class="text-sm text-gray-500">Movies & Music</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg transition">
+                        <p class="font-semibold">Backup (F:)</p>
+                        <p class="text-sm text-gray-500">Old Backups & Archives</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Folders-->
+            <div class="bg-gray-100 p-2 rounded-xl">
+                <h2 class="text-lg font-semibold text-gray-700 mb-2">Folders</h2>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg cursor-pointer">
+                        <img src="https://img.icons8.com/fluency/48/folder-invoices.png" class="mx-auto mb-2 w-10" />
+                        <p class="font-medium">Documents</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg cursor-pointer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/607/607921.png" class="mx-auto mb-2 w-9" />
+                        <p class="font-medium">Music</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg cursor-pointer">
+                        <img src="https://www.freeiconspng.com/uploads/photo-album-icon-png-14.png" class="mx-auto mb-2 w-10" />
+                        <p class="font-medium">Pictures</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg cursor-pointer">
+                        <img src="https://www.freeiconspng.com/thumbs/video-icon/video-icon-6.png" class="mx-auto mb-2 w-10" />
+                        <p class="font-medium">Videos</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg cursor-pointer">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcR6Ejseqg0T8KWx5D8X6GGvsKfLemz4zJOQ&s"
+                            class="mx-auto mb-2 w-10" />
+                        <p class="font-medium">Downloads</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border hover:shadow-lg cursor-pointer">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQctzcs-tgQohAA_nndyOSnsue2KeXegaEdug&s"
+                            class="mx-auto mb-2 w-10" />
+                        <p class="font-medium">System Files</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Explorer Window -->
+    <div id="fileExplorerWindow" class="hidden absolute top-48 left-48 w-[55vw] h-[65vh] bg-white rounded-xl shadow-2xl border border-gray-300 z[998] flex flex-col resize overflow-hidden">
+        <!-- Title Bar -->
+        <div id="explorerTitleBar" class="flex justify-between items-center bg-gray-800 text-white px-4 py-2 cursor-move">
+            <span class="font-semibold">File Explorer</span>
+            <div class="flex gap-2 items-center">
+                <button onclick="minimizeExplorer()" class="w-8 h-8 hover:bg-yellow-500 rounded text-xl font-['Michroma'] font-bold">–</button>
+                <button onclick="maximizeExplorer()" class="w-8 h-8 hover:bg-green-500 rounded text-xl font-['Michroma'] font-bold">0</button>
+                <button onclick="closeExplorer()" class="w-8 h-8 hover:bg-red-500 rounded text-xl font-['Michroma'] font-bold">X</button>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="bg-gray-100 px-4 py-2 flex items-center gap-2 border-b border-gray-300 text-gray-700">
+            <button class="hover:bg-gray-200 p-1 rounded"><img src="https://img.icons8.com/ios-glyphs/20/back.png" /></button>
+            <button class="hover:bg-gray-200 p-1 rounded"><img src="https://img.icons8.com/ios-glyphs/20/forward.png" /></button>
+            <button class="hover:bg-gray-200 p-1 rounded"><img src="https://img.icons8.com/ios-glyphs/20/refresh.png" /></button>
+            <input type="text" value="C:/Users/You/Documents" class="flex-1 px-3 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-300" />
+        </div>
+
+        <!-- Window Content -->
+        <div class="flex flex-1 overflow-hidden bg-gray-50">
+            <!-- Sidebar -->
+            <div class="resize w-1/4 bg-white border-r p-4 space-y-3 text-sm">
+                <p class="font-semibold text-gray-600 mb-2">Quick Access</p>
+                <ul class="space-y-2">
+                    <li class="hover:bg-gray-200 p-2 rounded cursor-pointer"> Desktop</li>
+                    <li class="hover:bg-gray-200 p-2 rounded cursor-pointer"> Documents</li>
+                    <li class="hover:bg-gray-200 p-2 rounded cursor-pointer"> Downloads</li>
+                    <li class="hover:bg-gray-200 p-2 rounded cursor-pointer"> Pictures</li>
+                    <li class="hover:bg-gray-200 p-2 rounded cursor-pointer"> Music</li>
+                    <li class="hover:bg-gray-200 p-2 rounded cursor-pointer"> Videos</li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-4 overflow-y-auto">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">Documents</h2>
+                <div class="grid grid-cols-5 gap-4">
+                    <div class="text-center">
+                        <img src="https://img.icons8.com/fluency/48/file.png" class="mx-auto mb-1" />
+                        <p class="text-sm truncate">Report.docx</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.icons8.com/fluency/48/pdf.png" class="mx-auto mb-1" />
+                        <p class="text-sm truncate">Invoice.pdf</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.icons8.com/fluency/48/image.png" class="mx-auto mb-1" />
+                        <p class="text-sm truncate">Image.png</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.icons8.com/fluency/48/folder-invoices.png" class="mx-auto mb-1" />
+                        <p class="text-sm truncate">Work Folder</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://img.icons8.com/fluency/48/video.png" class="mx-auto mb-1" />
+                        <p class="text-sm truncate">Intro.mp4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="vsWindow" class="hidden absolute top-48 left-48 w-[55vw] h-[65vh] bg-white rounded-xl shadow-2xl border border-gray-300 z[998] flex flex-col resize overflow-hidden">
+        <!-- Title Bar -->
+        <div id="vsTitleBar" class="flex justify-between items-center bg-gray-800 text-white px-4 py-2 cursor-move">
+            <span class="font-semibold">VS CODE</span>
+            <div class="flex gap-2 items-center">
+                <button onclick="minimizeCode()" class="w-8 h-8 hover:bg-yellow-500 rounded text-xl font-['Michroma'] font-bold">–</button>
+                <button onclick="maximizeCode()" class="w-8 h-8 hover:bg-green-500 rounded text-xl font-['Michroma'] font-bold">0</button>
+                <button onclick="closeCode()" class="w-8 h-8 hover:bg-red-500 rounded text-xl font-['Michroma'] font-bold">X</button>
+            </div>
+        </div>
+
+        <!-- vs code window -->
+        <div class="bg-gray-100  flex items-center gap-2 border-b border-gray-300 text-gray-700">
+            <img src="assets/vscodew.PNG" alt="">
+        </div>
+    </div>
+ 
+     
+
+    <!-- note pad -->
+    <div id="notepadWindow" class="hidden absolute top-48 left-48 w-[55vw] h-[65vh] bg-white rounded-xl shadow-2xl border border-gray-300 z[998] flex flex-col resize overflow-hidden">
+        <!-- Title Bar -->
+        <div id="notepadTitleBar" class="flex items-center justify-between bg-gray-800 text-white px-4 py-2 cursor-move select-none">
+            <span class="font-semibold">Notepad</span>
+            <div class="flex space-x-1">
+                <button onclick="minimizePad()" class="px-2 hover:bg-yellow-500 rounded font-['Michroma']">–</button>
+                <button onclick="maximizePad()" class="px-2 hover:bg-green-500 rounded font-['Michroma']">0</button>
+                <button onclick="closePad()" class="px-2 hover:bg-red-500 rounded font-['Michroma']">X</button>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="bg-gray-100 flex items-center space-x-2 px-4 py-2 border-b border-gray-300">
+            <button onclick="newNote()" class="px-3 bg-gray-200 hover:bg-gray-300 rounded">New</button>
+            <button onclick="resetNote()" class="px-3 bg-gray-200 hover:bg-gray-300 rounded">Reset</button>
+            <button onclick="saveNote()" class="px-3 bg-gray-200 hover:bg-gray-300 rounded">Save</button>
+            <div class="flex space-x-1 ml-auto">
+                <button onclick="zoomOut()" class="px-2 bg-gray-200 hover:bg-gray-300 rounded ">A–</button>
+                <button onclick="zoomIn()" class="px-2 bg-gray-200 hover:bg-gray-300 rounded ">A+</button>
+            </div>
+        </div>
+
+        <!-- Editor -->
+        <textarea id="editor" class="flex-1 p-4 resize-none font-['Michroma'] focus:outline-none" style="font-size:16px;"></textarea>
+    </div>
+
+
+<!-- Recycle Bin Window -->
+<div id="recycleBinWindow" class="hidden absolute top-36 left-36 w-[52vw] h-[67vh] bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-300 z-[999] flex flex-col resize overflow-hidden">
+  
+    <!-- Title Bar -->
+    <div id="recycleTitleBar" class="flex justify-between items-center bg-gray-900/80 text-white px-4 py-2 cursor-move rounded-t-3xl backdrop-blur-md">
+      <span class="font-semibold tracking-wide text-base flex items-center gap-2"> <img src="assets/recyclebinicon.png" alt="" class="w-8 h-8">Recycle Bin</span>
+      <div class="flex gap-1 items-center">
+        <button onclick="minimizeRecycleBin()" class="w-8 h-8 hover:bg-yellow-400/70 text-white text-xl font-bold font-['Michroma']  transition">−</button>
+        <button onclick="maximizeRecycleBin()" class="w-8 h-8 hover:bg-green-400/70 text-white text-lg font-bold font-['Michroma']  transition">0</button>
+        <button onclick="closeRecycleBin()" class="w-8 h-8 hover:bg-red-500/80 text-white text-xl font-bold font-['Michroma']  transition">X</button>
+      </div>
+    </div>
+  
+    <!-- Toolbar -->
+    <div class="flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-white/70 backdrop-blur-sm">
+      <span class="text-sm text-gray-600">6 items</span>
+      <button class="text-xs bg-red-500/10 text-red-600 font-semibold px-3 py-1.5 rounded-xl hover:bg-red-500/20 transition"
+        onclick="alert('Recycle Bin emptied')"> Empty Recycle Bin</button>
+    </div>
+  
+    <!-- Recycle Bin Content -->
+    <div id="recycleContent" class="flex-1 overflow-y-auto p-4 bg-white/50 backdrop-blur-sm">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+  
+        <!-- Item 1 -->
+        <div class="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer">
+          <img src="assets/word.png" alt="file" class="w-8 h-8 object-contain">
+          <div>
+            <p class="text-gray-800 font-semibold text-sm">project-notes.docx</p>
+            <p class="text-gray-500 text-xs">Deleted on Jun 25, 2025</p>
+          </div>
+        </div>
+  
+        <!-- Item 2 -->
+        <div class="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer">
+          <img src="assets/image-icon.jpg" alt="image" class="w-12 h-12 object-contain">
+          <div>
+            <p class="text-gray-800 font-semibold text-sm">old-screenshot.png</p>
+            <p class="text-gray-500 text-xs">Deleted on Jun 18, 2025</p>
+          </div>
+        </div>
+  
+        <!-- Item 3 -->
+        <div class="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer">
+          <img src="assets/pdf-icon.webp" alt="pdf" class="w-10 h-10 object-contain">
+          <div>
+            <p class="text-gray-800 font-semibold text-sm">invoice2024.pdf</p>
+            <p class="text-gray-500 text-xs">Deleted on May 30, 2025</p>
+          </div>
+        </div>
+  
+        <!-- Item 4 -->
+        <div class="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer">
+          <img src="assets/exploler.png" alt="folder" class="w-12 h-12 object-contain">
+          <div>
+            <p class="text-gray-800 font-semibold text-sm">Old Projects</p>
+            <p class="text-gray-500 text-xs">Deleted on May 15, 2025</p>
+          </div>
+        </div>
+  
+        <!-- Item 5 -->
+        <div class="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer">
+          <img src="assets/video-icon.jpg" alt="video" class="w-12 h-12 object-contain">
+          <div>
+            <p class="text-gray-800 font-semibold text-sm">intro.mp4</p>
+            <p class="text-gray-500 text-xs">Deleted on Apr 10, 2025</p>
+          </div>
+        </div>
+  
+        <!-- Item 6 -->
+        <div class="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer">
+          <img src="assets/vscode.png" alt="code" class="w-12 h-12 object-contain">
+          <div>
+            <p class="text-gray-800 font-semibold text-sm">script.js</p>
+            <p class="text-gray-500 text-xs">Deleted on Mar 22, 2025</p>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+    
+    <!-- diffrent backgrounds -->
+    <div class=" p-4 max-h-[50vh] ">
+        <div class="big overflow-y-scroll grid grid-cols-4 max-h-[45vh] gap-1 p-2">
+            <img src="assets/bg1.jpeg" class="cursor-pointer images rounded hover:opacity-80 w-[40vh] h-[18vh]" onclick="setWallpaper(this.src)">
+            <img src="assets/bg2.jpg" class="cursor-pointer images rounded hover:opacity-80 w-[40vh] h-[18vh]" onclick="setWallpaper(this.src)">
+            <img src="assets/bg3.jpg" class="cursor-pointer images rounded hover:opacity-80 w-[40vh] h-[18vh]" onclick="setWallpaper(this.src)">
+            <img src="assets/bg4.jpg" class="cursor-pointer images rounded hover:opacity-80 w-[40vh] h-[18vh]" onclick="setWallpaper(this.src)">
+        </div>
+    </div>
+
+
+    <!-- wifi rIght Side panel  -->
+    <div id="quick-panel" class="fixed bottom-16 right-4 w-[400px] max-w-full rounded-2xl p-5 shadow-2xl backdrop-blur-md bg-black/60 text-white transform transition-all duration-300 translate-y-full opacity-0 pointer-events-none z-50">
+
+        <!-- Grid of Tiles -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+
+            <!-- Tile -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition">
+                <div class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:scale-105 transition-transform">
+                    <img src="assets/wifi-signal.png" class="w-6 h-6" alt="WiFi">
+                </div>
+                <span class="text-xs text-white">Wi-Fi</span>
+            </div>
+
+            <div class="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition">
+                <div class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:scale-105 transition-transform">
+                    <img src="assets/blu.svg" class="w-6 h-6" alt="Bluetooth">
+                </div>
+                <span class="text-xs text-white">Bluetooth</span>
+            </div>
+
+            <div class="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition">
+                <div class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:scale-105 transition-transform">
+                    <img src="assets/airplane.svg" class="w-6 h-6" alt="Airplane">
+                </div>
+                <span class="text-xs text-white">Airplane</span>
+            </div>
+
+            <div class="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition">
+                <div class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:scale-105 transition-transform">
+                    <img src="assets/acc.svg" class="w-6 h-6" alt="Accessibility">
+                </div>
+                <span class="text-xs text-white">Accessibility</span>
+            </div>
+
+            <div class="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition">
+                <div class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:scale-105 transition-transform">
+                    <img src="assets/battery-saver.svg" class="w-6 h-6" alt="battery-saver">
+                </div>
+                <span class="text-xs text-white">battery-saver</span>
+            </div>
+
+            <div class="flex flex-col items-center gap-2 cursor-pointer p-4 rounded-xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition">
+                <div class="w-12 h-12 flex items-center justify-center bg-white/10 rounded-full hover:scale-105 transition-transform">
+                    <img src="assets/night-light.svg" class="w-6 h-6" alt="Dark Mode">
+                </div>
+                <span class="text-xs text-white">Dark Mode</span>
+            </div>
+
+
+        </div>
+
+        <!-- Sliders -->
+        <div class="space-y-5">
+            <div class="flex items-center gap-3">
+                <img src="assets/audio.png" class="w-5 h-5" alt="Volume">
+                <input type="range" class="w-full h-1 rounded bg-gray-500 accent-purple-500">
+            </div>
+
+            <div class="flex items-center gap-3">
+                <img src="assets/sun.svg" class="w-5 h-5" alt="Brightness">
+                <input type="range" id="brightness-slider" min="50" max="150" value="100" class="w-full h-1 rounded bg-gray-500 accent-purple-500">
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-between items-center mt-6 text-sm">
+            <div class="flex items-center gap-2" id="battery-ui">
+                <img src="assets/battery.svg" class="w-5 h-5" alt="Battery">
+                <span id="battery-percent">100%</span>
+            </div>
+            <img src="assets/settings.svg" class="w-5 h-5 cursor-pointer" alt="Settings">
+        </div>
+    </div>
+
+
+ <!-- Calendar Panel -->
+<div id="calendar-panel" class="fixed bottom-16 right-[420px] w-[360px] max-w-full rounded-2xl p-5 shadow-2xl backdrop-blur-md bg-black/60 text-white transform transition-all duration-300 translate-y-full opacity-0 pointer-events-none z-50">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <button id="prevMonth" class="px-2 py-1 rounded hover:bg-white/10">‹</button>
+      <div id="calendar-month" class="text-lg font-semibold">June 2025</div>
+      <button id="nextMonth" class="px-2 py-1 rounded hover:bg-white/10">›</button>
+    </div>
+  
+    <!-- Days of Week -->
+    <div class="grid grid-cols-7 gap-1 text-xs text-gray-300 mb-2">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+  
+    <!-- Dates Grid -->
+    <div id="calendar-days" class="grid grid-cols-7 gap-2 text-center text-sm">
+      <!-- Dates will be rendered here by JS -->
+    </div>
+  
+    <!-- Footer -->
+    <div class="mt-4 text-center text-xs text-gray-400">
+      Today is <span id="today-date"></span>
+    </div>
+  </div>
+  
+    <script src="wifi.js"></script>
+    <script src="calender.js"></script>
+    <script src="notepad.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
