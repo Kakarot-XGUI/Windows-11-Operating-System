@@ -208,7 +208,7 @@ function removeTaskbarIcon6() {
       const icon = document.createElement("div");
       icon.id = "Pc-icon";
       icon.className = "bg-transparent  -top-3 py-2  w-[15vh] rounded cursor-pointer";
-      icon.innerHTML = `<img src="assets/this pc.png" alt="helo" class="  h-9" />`;
+      icon.innerHTML = `<img src="assets/images/this pc.png" alt="helo" class="  h-9" />`;
 
       icon.onclick = () => {
         thisPcWindow.classList.remove("hidden");
@@ -228,7 +228,7 @@ function removeTaskbarIcon6() {
       const icon = document.createElement("div");
       icon.id = "exploler-icon";
       icon.className = "bg-transparent  -top-3 py-2 ml-2 w-[15vh] rounded cursor-pointer";
-      icon.innerHTML = `<img src="assets/exploler.png" alt="helo" class="  h-9" />`;
+      icon.innerHTML = `<img src="assets/images/exploler.png" alt="helo" class="  h-9" />`;
 
       icon.onclick = () => {
         fileExplorerWindow.classList.remove("hidden");
@@ -249,7 +249,7 @@ function removeTaskbarIcon6() {
   const icon = document.createElement("div");
   icon.id = "vs-icon";
   icon.className = "bg-transparent  -top-3 py-2 ml-2 w-[15vh] rounded cursor-pointer";
-  icon.innerHTML = `<img src="assets/vscode.png" alt="helo" class="  h-9" />`;
+  icon.innerHTML = `<img src="assets/images/vscode.png" alt="helo" class="  h-9" />`;
 
   icon.onclick = () => {
     vsWindow.classList.remove("hidden");
@@ -268,7 +268,7 @@ function addTaskbarIcon4(){
   const icon = document.createElement("div");
   icon.id = "notepad-icon";
   icon.className = "bg-transparent  -top-3 py-2 ml-2 w-[14vh] rounded cursor-pointer";
-  icon.innerHTML = `<img src="assets/notepad.png" alt="helo" class="  h-9" />`;
+  icon.innerHTML = `<img src="assets/images/notepad.png" alt="helo" class="  h-9" />`;
 
   icon.onclick = () => {
     notepadWindow.classList.remove("hidden");
@@ -288,7 +288,7 @@ function addTaskbarIcon5(){
   const icon = document.createElement("div");
   icon.id = "Bin-icon";
   icon.className = "bg-transparent  -top-3 py-2 ml-2 w-[14vh] rounded cursor-pointer";
-  icon.innerHTML = `<img src="assets/recyclebinicon.png" alt="helo" class="  h-9" />`;
+  icon.innerHTML = `<img src="assets/images/recyclebinicon.png" alt="helo" class="  h-9" />`;
 
   icon.onclick = () => {
     recycleBinWindow.classList.remove("hidden");
