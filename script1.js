@@ -25,6 +25,59 @@ const move = (e) => {
   drag.addEventListener('mousedown', mouseDownHandler);
 });
 
+window.addEventListener("load", () => {
+  const bootTexts = document.getElementById("bootTexts");
+  const winLogo = document.getElementById("winLogo");
+  const spinner = document.getElementById("spinner");
+  const pressEnter = document.getElementById("pressEnter");
+  const winLoader = document.getElementById("winLoader");
+  const bootSound = document.getElementById("bootSound");
+
+  // Step-by-step animation sequence
+  setTimeout(() => {
+    bootTexts.style.opacity = "0";
+    winLogo.classList.add("opacity-100");
+  }, 500);
+
+  setTimeout(() => {
+    spinner.classList.add("opacity-100");
+  }, 1000);
+
+  setTimeout(() => {
+    pressEnter.classList.add("opacity-100");
+  }, 1500);
+
+  // Play boot sound after short delay
+  setTimeout(() => {
+    const playPromise = bootSound.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+      
+        const playOnInteraction = () => {
+          bootSound.play();
+          document.removeEventListener("click", playOnInteraction);
+          document.removeEventListener("keydown", playOnInteraction);
+        };
+        document.addEventListener("click", playOnInteraction);
+        document.addEventListener("keydown", playOnInteraction);
+      });
+    }
+  }, 500); 
+  
+
+  // ENTER to continue
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      winLoader.classList.add("opacity-0");
+      setTimeout(() => {
+        winLoader.style.display = "none";
+      }, 600);
+    }
+  });
+});
+
+
+
 // Date and Time Function
 function updateDateTime() {
   const now = new Date();
@@ -105,6 +158,10 @@ const contextMenu = document.getElementById("contextMenu");
    const win4 = document.getElementById("recycleBinWindow");
    win4.classList.remove("hidden");
   }
+  function openChrome(){
+    const win5 = document.getElementById("chromeWindow");
+    win5.classList.remove("hidden");
+   }
 // // Opening Apps End's Here
 
 
@@ -172,6 +229,17 @@ function removeTaskbarIcon6() {
   const icon = document.getElementById("Bin-icon");
   if (icon) icon.remove();
 }
+
+function closeChrome(){
+  chromeWindow.classList.add("hidden");
+  removeTaskbarIcon7()
+}
+
+function removeTaskbarIcon7() {
+  const icon = document.getElementById("chrome-icon");
+  if (icon) icon.remove();
+}
+
 // // CLose Functionality's End Here
 
 // // Minimise Windows Start here 
@@ -297,6 +365,28 @@ function addTaskbarIcon5(){
 
   document.getElementById("minimized-apps").appendChild(icon);
  }
+
+//  Called when Click on Minimise of Chrome
+function minimizeChrome(){
+  chromeWindow.classList.add("hidden");
+    addTaskbarIcon6();
+}
+function addTaskbarIcon6(){
+  if (document.getElementById("chrome-icon")) return;
+  const icon = document.createElement("div");
+  icon.id = "Bin-icon";
+  icon.className = "bg-transparent  -top-3 py-2 ml-2 w-[14vh] rounded cursor-pointer";
+  icon.innerHTML = `<img src="assets/images/chrome.png" alt="helo" class="  h-8" />`;
+
+  icon.onclick = () => {
+    chromeWindow.classList.remove("hidden");
+    icon.remove();
+  };
+
+  document.getElementById("minimized-apps").appendChild(icon);
+ }
+
+
 // // Minimise Windows End here 
   
 // // Maximizes Window Start's Here
@@ -340,6 +430,13 @@ function addTaskbarIcon5(){
       recycleBinWindow.classList.toggle("h-screen");
       recycleBinWindow.classList.toggle("top-0");
       recycleBinWindow.classList.toggle("left-0");
+    }
+
+    function maximizeChrome() {
+      chromeWindow.classList.toggle("w-screen");
+      chromeWindow.classList.toggle("h-screen");
+      chromeWindow.classList.toggle("top-0");
+      chromeWindow.classList.toggle("left-0");
     }
 // // Maximizes Window End's Here 
 
@@ -399,11 +496,16 @@ makeWindowDraggable(
   document.getElementById("recycleBinWindow"),
   document.getElementById("recycleTitleBar")
 );
+// This Chrome
+makeWindowDraggable(
+  document.getElementById("chromeWindow"),
+  document.getElementById("chromeTitleBar")
+);
 
 // Track the top z-index
 let topZIndex = 1000;
 // Select all windows
-const windows = document.querySelectorAll('#thisPcWindow, #wallpaperWindow, #fileExplorerWindow, #vsWindow, #notepadWindow, #recycleBinWindow');
+const windows = document.querySelectorAll('#thisPcWindow, #wallpaperWindow, #fileExplorerWindow, #vsWindow, #notepadWindow, #recycleBinWindow, #chromeWindow');
 // Loop through each and add click event
 windows.forEach(win => {
   win.addEventListener('mousedown', () => {
