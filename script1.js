@@ -162,6 +162,7 @@ const contextMenu = document.getElementById("contextMenu");
     const win5 = document.getElementById("chromeWindow");
     win5.classList.remove("hidden");
    }
+   
 // // Opening Apps End's Here
 
 
@@ -239,6 +240,7 @@ function removeTaskbarIcon7() {
   const icon = document.getElementById("chrome-icon");
   if (icon) icon.remove();
 }
+
 
 // // CLose Functionality's End Here
 
@@ -500,6 +502,16 @@ makeWindowDraggable(
 makeWindowDraggable(
   document.getElementById("chromeWindow"),
   document.getElementById("chromeTitleBar")
+);
+// This camera
+makeWindowDraggable(
+  document.getElementById("cameraWindow"),
+  document.getElementById("cameraTitleBar")
+);
+// This pictures
+makeWindowDraggable(
+  document.getElementById("picturesWindow"),
+  document.getElementById("PicturesTitleBar")
 );
 
 // Track the top z-index
