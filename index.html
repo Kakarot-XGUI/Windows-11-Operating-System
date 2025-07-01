@@ -14,29 +14,29 @@
 
 <body class="overflow-hidden transition-all duration-100" id="desktop">
 
-
+<!-- 
     <div id="winLoader" class="fixed inset-0 bg-black z-[999999] flex flex-col items-center justify-center text-white font-mono text-center">
 
-        <!--  Boot Texts -->
+        
         <div id="bootTexts" class="space-y-2 opacity-100 transition-opacity duration-500">
             <p class="text-sm animate-pulse">Initializing...</p>
             <p class="text-sm animate-pulse delay-[1500ms]">
-                Preparing Windows environment... <br> Click On Allow Whenever they ask <br> & Press Enter
+                Preparing Windows environment... <br> Click On Allow Whenever they ask ...
             </p>
 
         </div>
 
-        <!-- : Windows Logo -->
+        
         <img id="winLogo" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Windows_logo_-_2021.svg" class="w-24 h-24 mt-8 opacity-0 transition-opacity duration-1000"
             alt="Windows Logo" />
 
-        <!--  Spinner -->
+       
         <div id="spinner" class="mt-6 opacity-0 transition-opacity duration-1000">
             <div class="w-12 h-12 border-4 border-gray-500 border-t-blue-500 rounded-full animate-spin win11-ring"></div>
         </div>
 
 
-    </div>
+    </div> -->
 
 
 
@@ -52,20 +52,20 @@
 
         <!-- This Pc Icon -->
         <!-- Double click on icon openThisPc Called -->
-        <div ondblclick="openThisPc()" class="drag flex items-center flex-col text-white absolute" style="top: 20px; left: -2px;">
-            <img src="assets/images/this pc.png" alt="This PC" class="w-15 h-11">
+        <div ondblclick="openThisPc()" class="drag flex items-center flex-col text-white absolute" style="top: 20px; left: 20px;">
+            <img src="assets/images/this pc.png" alt="This PC" class="w-12 h-10">
             <span class="mt-1 font-['Winky_Rough']">This PC</span>
         </div>
 
         <!-- Chrome Icon -->
         <div ondblclick="openChrome()" class="drag flex items-center flex-col text-white" style="top: 100px; left: 24px;">
-            <img src="assets/images/chrome.png" alt="Chrome" class="w-14 h-9">
+            <img src="assets/images/chrome.png" alt="Chrome" class="w-10 h-9">
             <span class=" my-1 font-['Winky_Rough']">Chrome</span>
         </div>
 
         <!-- VS Code Icon -->
         <div ondblclick="openVS()" class="drag flex items-center flex-col text-white" style="top: 170px; left: 24px;">
-            <img src="assets/images/vscode.png" alt="VS Code" class="w-14 h-14">
+            <img src="assets/images/vscode.png" alt="VS Code" class="w-11 h-10">
             <span class=" mt-0 font-['Winky_Rough']">VS Code</span>
         </div>
 
@@ -103,7 +103,7 @@
     </div>
 
     <!-- taskbar -->
-    <div class="taskbar absolute bottom-0 w-screen bg-white h-[6vh] flex items-center justify-between px-4 z-[5000]">
+    <div class="taskbar absolute bottom-0 w-screen bg-white h-[6.5vh] flex items-center justify-between px-4 z-[5000]">
         <div class="flex items-center gap-2 text-sm text-gray-700" id="weather-box">
             <img id="weather-icon" class="h-8">
             <span id="temperature" class="font-black text-lg font-['Michroma']">__°C</span>
@@ -155,7 +155,7 @@
 
         <div onclick="openVS()" class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/images/vscode.png"
                 alt="VS Code" class="w-8 h-8"> Vs Code</div>
-        <div class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/images/chrome.png"
+        <div onclick="openChrome()" class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/images/chrome.png"
                 alt="VS Code" class="w-8 h-5"> Chrome </div>
         <div onclick="openExploler()" class="hover:bg-blue-100 px-1 py-2 cursor-pointer text-center flex gap-2"> <img
                 src="assets/images/exploler.png" alt="VS Code" class="w-7 h-7"> File Explorer</div>
@@ -511,30 +511,27 @@
         </div>
     </div>
 
-  
-  
-  <!-- PICTURES WINDOW -->
-  <div id="picturesWindow"
-       class="hidden absolute top-32 left-32 w-[50vw] h-[70vh] bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-200 z-[998] flex flex-col overflow-y-auto resize transition-all duration-300">
-  
-    <!-- Title Bar -->
-    <div id="PicturesTitleBar"
-         class="flex justify-between items-center bg-gradient-to-r from-blue-800 to-blue-600 text-white px-5 py-3 cursor-move rounded-t-2xl shadow-md">
-      <span class="font-semibold tracking-wide"> Pictures</span>
-      <div>
-        <button onclick="minimizePic()" class="w-8 h-8 hover:bg-yellow-400/70 text-white text-xl font-bold font-['Michroma']  transition">−</button>
-        <button onclick="maximizePic()" class="w-8 h-8 hover:bg-green-400/70 text-white text-lg font-bold font-['Michroma']  transition">0</button>
-        <button onclick="closePic()" class="w-8 h-8 hover:bg-red-500/80 text-white text-xl font-bold font-['Michroma']  transition">X</button>
+
+
+    <!-- PICTURES WINDOW -->
+    <div id="picturesWindow" class="hidden absolute top-32 left-32 w-[50vw] h-[70vh] bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-200 z-[998] flex flex-col overflow-y-auto resize transition-all duration-300">
+
+        <!-- Title Bar -->
+        <div id="PicturesTitleBar" class="flex justify-between items-center bg-gradient-to-r from-blue-800 to-blue-600 text-white px-5 py-3 cursor-move rounded-t-2xl shadow-md">
+            <span class="font-semibold tracking-wide"> Pictures</span>
+            <div>
+                <button onclick="minimizePic()" class="w-8 h-8 hover:bg-yellow-400/70 text-white text-xl font-bold font-['Michroma']  transition">−</button>
+                <button onclick="maximizePic()" class="w-8 h-8 hover:bg-green-400/70 text-white text-lg font-bold font-['Michroma']  transition">0</button>
+                <button onclick="closePic()" class="w-8 h-8 hover:bg-red-500/80 text-white text-xl font-bold font-['Michroma']  transition">X</button>
+            </div>
+        </div>
+
+        <!-- Picture Grid -->
+        <div id="picturesGallery" class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 bg-gray-100 rounded-b-2xl overflow-y-auto">
+            <!-- Captured images will appear here -->
+        </div>
     </div>
-    </div>
-  
-    <!-- Picture Grid -->
-    <div id="picturesGallery"
-         class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 bg-gray-100 rounded-b-2xl overflow-y-auto">
-      <!-- Captured images will appear here -->
-    </div>
-  </div>
-  
+
 
     <!-- diffrent backgrounds -->
     <div class=" p-4 max-h-[50vh] ">

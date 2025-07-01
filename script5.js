@@ -81,8 +81,8 @@ function addTaskbarIcon7() {
 
   const icon = document.createElement("div");
   icon.id = "camera-icon";
-  icon.className = "bg-transparent text-black px-3 py-4 -ml-2 rounded cursor-pointer text-sm";
-  icon.innerHTML = `<img src="assets/images/" alt="camera" class="  h-9" />`;
+  icon.className = "bg-transparent text-black py-2 w-[5vh] rounded cursor-pointer";
+  icon.innerHTML = `<img src="https://png.pngtree.com/png-vector/20220719/ourmid/pngtree-golden-photography-wing-camera-logo-png-image_6007201.png"  class="  h-9" />`;
 
   icon.onclick = () => {
     cameraWindow.classList.remove("hidden");
@@ -123,12 +123,12 @@ function minimizePic() {
 }
 
 function addTaskbarIcon8() {
-  if (document.getElementById("camera-icon")) return;
+  if (document.getElementById("picture-icon")) return;
 
   const icon = document.createElement("div");
-  icon.id = "camera-icon";
-  icon.className = "bg-transparent text-black px-3 py-4 -ml-2 rounded cursor-pointer text-sm";
-  icon.innerHTML = `<img src="assets/images/" alt="pictures" class="  h-9" />`;
+  icon.id = "picture-icon";
+  icon.className = "bg-transparent text-black  py-2 w-[5vh] rounded cursor-pointer text-sm";
+  icon.innerHTML = `<img src="https://static.vecteezy.com/system/resources/thumbnails/032/846/286/small_2x/3d-rendering-illustration-of-folder-icon-with-paper-document-simple-paper-folder-icon-folder-3d-render-icon-3d-render-illustration-png.png" class="  h-9" />`;
 
   icon.onclick = () => {
     picturesWindow.classList.remove("hidden");
