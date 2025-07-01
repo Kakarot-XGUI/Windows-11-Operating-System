@@ -77,7 +77,7 @@
 
         <!--Recycle bin-->
         <div ondblclick="openBin()" class="drag items-center flex flex-col text-white" style="top: 360px; left: 16px;">
-            <img src="assets/images/recyclebinicon.png" alt="Bin" class="w-11 h-11 ">
+            <img src="assets/images/recyclebinicon.png" alt="Bin" class="w-10 h-10 ">
             <span class=" mt-1 font-['Winky_Rough']">Recycle Bin</span>
         </div>
 
@@ -87,14 +87,14 @@
             <span class=" mt-1 font-['Winky_Rough']">Note Pad</span>
         </div>
 
-        <div ondblclick="openCameraWindow()" class="drag items-center flex flex-col text-white" style="top: 20px; left: 100px;">
+        <div ondblclick="openCameraWindow()" class="drag items-center flex flex-col text-white" style="top: 360px; left: 100px;">
             <img src="https://png.pngtree.com/png-vector/20220719/ourmid/pngtree-golden-photography-wing-camera-logo-png-image_6007201.png"
                 class="w-12 h-12" />
             <span class="text-sm mt-1">Camera</span>
         </div>
 
         <!-- PICTURES ICON (Quick Access / Desktop) -->
-        <div onclick="openPictureWindow()" class="drag items-center flex flex-col text-white" style="top: 100px; left: 100px;">
+        <div onclick="openPictureWindow()" class="drag items-center flex flex-col text-white" style="top: 450px; left: 100px;">
             <img src="https://static.vecteezy.com/system/resources/thumbnails/032/846/286/small_2x/3d-rendering-illustration-of-folder-icon-with-paper-document-simple-paper-folder-icon-folder-3d-render-icon-3d-render-illustration-png.png"
                 class="w-11 h-11" />
             <span class="text-sm mt-1">Pictures</span>
@@ -149,19 +149,48 @@
     <!-- Context menu When click on Mouse right Context Menu show hoga and on click on change Wallpaper openWallpaperWindow call hoga -->
 
     <div id="contextMenu" class="hidden absolute bg-white border rounded shadow-lg w-48 p-2 z-[9999]">
-        <div class="hover:bg-blue-100  py-2 cursor-pointer"><i class="ri-file-add-line"></i> New Folder</div>
-        <div class="hover:bg-blue-100  py-2 cursor-pointer" onclick="location.reload()"><i class="ri-refresh-line"></i>
-            Refresh Page</div>
-
-        <div onclick="openVS()" class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/images/vscode.png"
-                alt="VS Code" class="w-8 h-8"> Vs Code</div>
-        <div onclick="openChrome()" class="hover:bg-blue-100  py-2 cursor-pointer text-center flex gap-1"> <img src="assets/images/chrome.png"
-                alt="VS Code" class="w-8 h-5"> Chrome </div>
-        <div onclick="openExploler()" class="hover:bg-blue-100 px-1 py-2 cursor-pointer text-center flex gap-2"> <img
-                src="assets/images/exploler.png" alt="VS Code" class="w-7 h-7"> File Explorer</div>
-        <div class="hover:bg-blue-100 px-1 py-2 cursor-pointer" onclick="openWallpaperWindow()"> Change Wallpaper</div>
+        <div class="hover:bg-blue-100 px-2 py-2 cursor-pointer" onclick="createNewFolder()">
+            <i class="ri-folder-add-line"></i> New Folder
+        </div>
+        <div class="hover:bg-blue-100 px-2 py-2 cursor-pointer" onclick="location.reload()">
+            <i class="ri-refresh-line"></i> Refresh Page
+        </div>
+        <div class="hover:bg-blue-100 px-2 py-2 cursor-pointer" onclick="pasteFolder()" id="pasteOption" style="display: none;">
+            <i class="ri-clipboard-line"></i> Paste
+        </div>
+        <hr class="my-1 border-gray-200">
+        <div onclick="openVS()" class="hover:bg-blue-100 px-2 py-2 cursor-pointer text-center flex gap-1"> 
+            <img src="assets/images/vscode.png" alt="VS Code" class="w-8 h-8"> Vs Code
+        </div>
+        <div onclick="openChrome()" class="hover:bg-blue-100 px-2 py-2 cursor-pointer text-center flex gap-1"> 
+            <img src="assets/images/chrome.png" alt="Chrome" class="w-8 h-5"> Chrome 
+        </div>
+        <div onclick="openExploler()" class="hover:bg-blue-100 px-1 py-2 cursor-pointer text-center flex gap-2"> 
+            <img src="assets/images/exploler.png" alt="File Explorer" class="w-7 h-7"> File Explorer
+        </div>
+        <div class="hover:bg-blue-100 px-1 py-2 cursor-pointer" onclick="openWallpaperWindow()"> 
+            Change Wallpaper
+        </div>
     </div>
 
+    <div id="folderContextMenu" class="hidden absolute bg-white border rounded shadow-lg w-40 p-1 z-[9999]">
+        <div class="hover:bg-blue-100 px-3 py-2 text-sm cursor-pointer" onclick="openSelectedFolder()">
+            <i class="ri-folder-open-line text-blue-500"></i> Open
+        </div>
+        <div class="hover:bg-blue-100 px-3 py-2 text-sm cursor-pointer" onclick="renameSelectedFolder()">
+            <i class="ri-edit-line text-green-500"></i> Rename
+        </div>
+        <div class="hover:bg-blue-100 px-3 py-2 text-sm cursor-pointer" onclick="cutSelectedFolder()">
+            <i class="ri-scissors-line text-orange-500"></i> Cut
+        </div>
+        <div class="hover:bg-blue-100 px-3 py-2 text-sm cursor-pointer" onclick="copySelectedFolder()">
+            <i class="ri-file-copy-line text-purple-500"></i> Copy
+        </div>
+        <hr class="my-1 border-gray-200">
+        <div class="hover:bg-blue-100 px-3 py-2 text-sm cursor-pointer text-red-600" onclick="deleteSelectedFolder()">
+            <i class="ri-delete-bin-line"></i> Delete
+        </div>
+    </div>
 
     <!-- Wallpaper Selection Window -->
     <div id="wallpaperWindow" class=" hidden absolute top-32 left-32 w-[40vw] h-[60vh] bg-white rounded-xl shadow-lg border  z-[999] flex flex-col resize overflow-hidden">
@@ -661,6 +690,7 @@
     <script src="script3.js"></script>
     <script src="script4.js"></script>
     <script src="script5.js"></script>
+    <script src="script6.js"></script>
     <audio id="bootSound" src="assets/sounds/win11boot.mp3" preload="auto"></audio>
 
 </body>
