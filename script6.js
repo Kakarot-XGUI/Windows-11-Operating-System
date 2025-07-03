@@ -6,10 +6,14 @@ let clipboardFolder = null;
 let clipboardAction = null; // 'cut' or 'copy'
 let isRenaming = false;
 
+// Recycle Bin Management
+let recycleBinItems = JSON.parse(localStorage.getItem('recycleBinItems')) || [];
+
 // Initialize folder system when page loads
 document.addEventListener('DOMContentLoaded', function() {
     loadFolders();
     setupContextMenus();
+    updateRecycleBinCount();
 });
 
 // Setup context menu event listeners
@@ -247,11 +251,22 @@ function renameSelectedFolder() {
     });
 }
 
-// Delete folder
+// Delete folder - Modified to move to recycle bin
 function deleteSelectedFolder() {
     if (!selectedFolder) return;
     
     if (confirm(`Are you sure you want to delete "${selectedFolder.name}"?`)) {
+        // Add to recycle bin
+        const recycleItem = {
+            ...selectedFolder,
+            deletedDate: new Date().toISOString(),
+            originalType: 'folder'
+        };
+        
+        recycleBinItems.push(recycleItem);
+        saveRecycleBin();
+        
+        // Remove from folders array
         folders = folders.filter(f => f.id !== selectedFolder.id);
         const folderElement = document.querySelector(`[data-folder-id="${selectedFolder.id}"]`);
         if (folderElement) {
@@ -259,6 +274,7 @@ function deleteSelectedFolder() {
         }
         selectedFolder = null;
         saveFolders();
+        updateRecycleBinCount();
     }
 }
 
@@ -327,6 +343,86 @@ function openSelectedFolder() {
     alert(`Opening folder: ${selectedFolder.name}`);
     hideContextMenus();
 }
+
+// Recycle Bin Functions
+function emptyRecycleBin() {
+    if (recycleBinItems.length === 0) {
+        alert('Recycle Bin is already empty!');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to permanently delete ${recycleBinItems.length} items?`)) {
+        recycleBinItems = [];
+        saveRecycleBin();
+        updateRecycleBinCount();
+        updateRecycleBinWindow();
+        alert('Recycle Bin emptied successfully!');
+    }
+}
+
+function saveRecycleBin() {
+    localStorage.setItem('recycleBinItems', JSON.stringify(recycleBinItems));
+}
+
+function updateRecycleBinCount() {
+    // Update the recycle bin window count if it exists
+    const countElement = document.querySelector('#recycleBinWindow .text-sm.text-gray-600');
+    if (countElement) {
+        countElement.textContent = `${recycleBinItems.length} items`;
+    }
+}
+
+function updateRecycleBinWindow() {
+    const recycleContent = document.getElementById('recycleContent');
+    if (!recycleContent) return;
+    
+    // Clear existing content
+    recycleContent.innerHTML = '';
+    
+    if (recycleBinItems.length === 0) {
+        recycleContent.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full text-gray-500">
+                <img src="assets/images/recyclebinicon.png" alt="Empty" class="w-16 h-16 opacity-50 mb-4">
+                <p class="text-lg font-medium">Recycle Bin is empty</p>
+                <p class="text-sm">Items you delete will appear here</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Create grid container
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'grid grid-cols-2 md:grid-cols-3 gap-4';
+    
+    recycleBinItems.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-3 shadow-sm hover:shadow-lg transition cursor-pointer';
+        
+        const deleteDate = new Date(item.deletedDate).toLocaleDateString();
+        
+        itemDiv.innerHTML = `
+            <img src="https://img.icons8.com/color/48/folder-invoices--v1.png" alt="folder" class="w-8 h-8 object-contain">
+            <div>
+                <p class="text-gray-800 font-semibold text-sm">${item.name}</p>
+                <p class="text-gray-500 text-xs">Deleted on ${deleteDate}</p>
+            </div>
+        `;
+        
+        gridContainer.appendChild(itemDiv);
+    });
+    
+    recycleContent.appendChild(gridContainer);
+}
+
+// Override the existing window open function to update recycle bin content
+const originalOpenBin = window.openBin;
+window.openBin = function() {
+    if (originalOpenBin) {
+        originalOpenBin();
+    }
+    updateRecycleBinCount();
+    updateRecycleBinWindow();
+};
 
 // Context menu functions - Modified to work with your existing system
 function showContextMenu(x, y) {
@@ -417,3 +513,6 @@ function arrangeIcons() {
 window.addEventListener('resize', function() {
     setTimeout(arrangeIcons, 100);
 });
+
+// Make emptyRecycleBin function globally available
+window.emptyRecycleBin = emptyRecycleBin;
